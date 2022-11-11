@@ -85,6 +85,7 @@ RSpec.describe Enigma do
       encryption1 = enigma.encrypt('joe King', '73009', '101122')
       message = 'longer message for encryption big brain test'
       encryption2 = enigma.encrypt(message)
+      encryption3 = enigma.encrypt('HELLO WORLD', '02715', '040895')
 
       expect(encryption1[:encryption]).to eq('jzmmktvt')
       expect(encryption1[:key]).to eq('73009')
@@ -93,6 +94,7 @@ RSpec.describe Enigma do
       expect(encryption2[:encryption]).not_to eq(message)
       expect(encryption2[:date]).to eq(Time.now.strftime('%d%m%y'))
       expect(encryption2[:key].size).to eq(5)
+      expect(encryption3[:encryption]).to eq('keder ohulw')
     end
   end
 
