@@ -6,6 +6,10 @@ class Enigma
     key
   end
 
+  def key_format(key)
+    key.chars.map { |num| num.to_i }
+  end
+
   def key_to_initial_offset(key)
     consecutive_key = key.each_cons(2).to_a
     consecutive_key.map { |pair| pair.join.to_i }
