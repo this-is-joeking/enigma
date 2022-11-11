@@ -1,13 +1,11 @@
 # frozen_string_literal: true
+require './date'
 
 class Enigma
+  include Date
+
   def initialize
     @alphabet = ('a'..'z').to_a << ' '
-  end
-
-  def date_format(date = today)
-    squared = date.to_i**2
-    squared.digits[0..3].reverse
   end
 
   def today
