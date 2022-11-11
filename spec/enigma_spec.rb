@@ -39,9 +39,21 @@ RSpec.describe Enigma do
     it 'gets the shift values from date, optional argument if date specified' do
       date1 = '101122'
       date2 = '221292'
+      date3 = 200407
 
       expect(enigma.date_format(date1)).to eq([8, 8, 8, 4])
       expect(enigma.date_format(date2)).to eq([9, 2, 6, 4])
+      expect(enigma.date_format(date3)).to eq([5, 6, 4, 9])
+    end
+  end
+
+  describe '#today' do
+    it 'turns todays date into string formatted as "DDMMYY"' do
+      expect(enigma.today).to be_a String
+      expect(enigma.today.size).to eq(6)
+      expect(enigma.today[0]).to be <= 3
+      expect(enigma.today[2]).to be <= 1
+      expect(enigma.today.chars[2..5]).to eq(['1', '1', '2', '2'])
     end
   end
 end
