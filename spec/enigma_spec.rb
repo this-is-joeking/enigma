@@ -40,10 +40,16 @@ RSpec.describe Enigma do
       date1 = '101122'
       date2 = '221292'
       date3 = 200407
+      no_date_given = enigma.date_format
 
       expect(enigma.date_format(date1)).to eq([8, 8, 8, 4])
       expect(enigma.date_format(date2)).to eq([9, 2, 6, 4])
       expect(enigma.date_format(date3)).to eq([5, 6, 4, 9])
+      expect(no_date_given.size).to eq(4)
+
+      no_date_given.each do |element|
+        expect(element).to be < 10
+      end
     end
   end
 
@@ -54,6 +60,15 @@ RSpec.describe Enigma do
       expect(enigma.today[0].to_i).to be <= 3
       expect(enigma.today[2].to_i).to be <= 1
       expect(enigma.today.chars[2..5]).to eq(['1', '1', '2', '2'])
+    end
+  end
+
+  describe '#shift_values()' do
+    it 'takes key and formatted date and returns shift for keys A..D' do
+      key = '73009'
+      date = '101122'
+
+      expect(enigma.shift_values(key, date)).to eq([0, 11, 8, 13])
     end
   end
 end
