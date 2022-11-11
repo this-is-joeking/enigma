@@ -3,7 +3,7 @@ class Enigma
   def key_generator
     key = []
     5.times { key << rand(10) }
-    key
+    key.join
   end
 
   def key_format(key)

@@ -10,8 +10,9 @@ RSpec.describe Enigma do
     it 'generates a random 5 digit number' do
       key = enigma.key_generator
 
+      expect(key).to be_a String
       expect(key.size).to eq(5)
-      key.each do |element|
+      key.to_i.digits.each do |element|
         expect(element).to be_a Integer
         expect(element).to be < (10)
       end
@@ -65,10 +66,19 @@ RSpec.describe Enigma do
 
   describe '#shift_values()' do
     it 'takes key and formatted date and returns shift for keys A..D' do
-      key = '73009'
-      date = '101122'
+      key1 = '73009'
+      key2 = '34129'
+      date1 = '101122'
+      date2 = '240597'
+      no_key_or_date_given = enigma.shift_values
 
-      expect(enigma.shift_values(key, date)).to eq([0, 11, 8, 13])
+      expect(enigma.shift_values(key1, date1)).to eq([0, 11, 8, 13])
+      expect(enigma.shift_values(key2, date2)).to eq([13, 18, 12, 11])
+      no_key_or_date_given.each do |shift_value|
+        expect(shift_value).to be < 27
+      end
     end
   end
+
+
 end
