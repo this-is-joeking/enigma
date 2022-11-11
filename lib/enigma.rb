@@ -1,4 +1,8 @@
 class Enigma
+  def initialize
+    @alphabet = ('a'..'z').to_a << ' '
+  end
+
   def key_generator
     key = []
     5.times { key << rand(10) }
@@ -46,11 +50,5 @@ class Enigma
       date: date }
   end
 
-  def message_to_ord(message)
-    message.downcase.chars.map(&:ord)
-  end
 
-  def ord_to_message(ordinals_array)
-    ordinals_array.map(&:chr).join
-  end
 end
