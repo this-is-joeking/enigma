@@ -14,7 +14,7 @@ class Enigma
     Time.now.strftime('%d%m%y')
   end
 
-  def shift_values(key = Key.new, date = today)
+  def shift_values(key, date = today)
     initial_offset = key.formatted_to_initial_offset
     date_offset = date_format(date)
     combined_offset = []

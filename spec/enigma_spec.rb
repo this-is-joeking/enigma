@@ -41,13 +41,9 @@ RSpec.describe Enigma do
       key2 = Key.new('34129')
       date1 = '101122'
       date2 = '240597'
-      no_key_or_date_given = enigma.shift_values
 
       expect(enigma.shift_values(key1, date1)).to eq([0, 11, 8, 13])
       expect(enigma.shift_values(key2, date2)).to eq([13, 18, 12, 11])
-      no_key_or_date_given.each do |shift_value|
-        expect(shift_value).to be < 27
-      end
     end
   end
 
