@@ -39,13 +39,12 @@ class Enigma
 
   def encrypt(message, key = key_generator, date = today)
     shift = shift_values(key, date)
-    message_values = message_to_ord(message)
     encrypted_values = []
 
-    message_values.each_with_index do |ord_val, index|
-      encrypted_values << ord_val + shift[index % 4]
+    message_to_alph_index(message).each_with_index do |char, index|
+      encrypted_values << (char + shift[index % 4]) % 27
     end
-    { encryption: ord_to_message(encrypted_values),
+    { encryption: alph_index_to_message(encrypted_values),
       key: key,
       date: date }
   end

@@ -81,7 +81,7 @@ RSpec.describe Enigma do
   end
 
   describe '#encrypt' do
-    xit 'returns hash with encrypted message date and key' do
+    it 'returns hash with encrypted message date and key' do
       encryption = enigma.encrypt('joe King', '73009', '101122')
 
       expect(encryption[:encryption]).to eq('jzmmktvt')
