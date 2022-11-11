@@ -10,7 +10,3 @@ module Date
     Time.now.strftime('%d%m%y')
   end
 end
-
-class TestClass
-  include Date
-end

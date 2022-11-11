@@ -3,9 +3,9 @@
 require './lib/date'
 
 RSpec.describe Date do
+   let(:test_class) { Class.new { extend Date } }
   describe '#date_format()' do
     it 'gets the shift values from date, optional argument if date specified' do
-      test_class = TestClass.new
       date1 = '101122'
       date2 = '221292'
       date3 = 200407
@@ -24,7 +24,6 @@ RSpec.describe Date do
 
   describe '#today' do
     it 'turns todays date into string formatted as "DDMMYY"' do
-      test_class = TestClass.new
 
       expect(test_class.today).to be_a String
       expect(test_class.today.size).to eq(6)
