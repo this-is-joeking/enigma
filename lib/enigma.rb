@@ -5,21 +5,6 @@ class Enigma
     @alphabet = ('a'..'z').to_a << ' '
   end
 
-  def key_generator
-    key = []
-    5.times { key << rand(10) }
-    key.join
-  end
-
-  def key_format(key)
-    key.chars.map(&:to_i)
-  end
-
-  def key_to_initial_offset(key)
-    consecutive_key = key.each_cons(2).to_a
-    consecutive_key.map { |pair| pair.join.to_i }
-  end
-
   def date_format(date = today)
     squared = date.to_i**2
     squared.digits[0..3].reverse
@@ -29,8 +14,8 @@ class Enigma
     Time.now.strftime('%d%m%y')
   end
 
-  def shift_values(key = key_generator, date = today)
-    initial_offset = key_to_initial_offset(key_format(key))
+  def shift_values(key = Key.new, date = today)
+    initial_offset = key.formatted_to_initial_offset
     date_offset = date_format(date)
     combined_offset = []
     initial_offset.each_with_index do |element, index|
@@ -39,7 +24,8 @@ class Enigma
     combined_offset.map { |shift| shift % 27 }
   end
 
-  def encrypt(message, key = key_generator, date = today)
+  def encrypt(message, key = Key.new, date = today)
+    key = Key.new(key) unless key.is_a?(Key)
     shift = shift_values(key, date)
     encrypted_values = []
 
@@ -49,7 +35,7 @@ class Enigma
       encrypted_values << (char + shift[index % 4]) % 27
     end
     { encryption: alph_index_to_message(encrypted_values),
-      key: key,
+      key: key.number,
       date: date }
   end
 
