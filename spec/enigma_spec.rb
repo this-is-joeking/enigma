@@ -82,11 +82,17 @@ RSpec.describe Enigma do
 
   describe '#encrypt' do
     it 'returns hash with encrypted message date and key' do
-      encryption = enigma.encrypt('joe King', '73009', '101122')
+      encryption1 = enigma.encrypt('joe King', '73009', '101122')
+      message = 'longer message for encryption big brain test'
+      encryption2 = enigma.encrypt(message)
 
-      expect(encryption[:encryption]).to eq('jzmmktvt')
-      expect(encryption[:key]).to eq('73009')
-      expect(encryption[:date]).to eq('101122')
+      expect(encryption1[:encryption]).to eq('jzmmktvt')
+      expect(encryption1[:key]).to eq('73009')
+      expect(encryption1[:date]).to eq('101122')
+      expect(encryption2[:encryption].size).to eq(message.size)
+      expect(encryption2[:encryption]).not_to eq(message)
+      expect(encryption2[:date]).to eq(Time.now.strftime('%d%m%y'))
+      expect(encryption2[:key].size).to eq(5)
     end
   end
 
