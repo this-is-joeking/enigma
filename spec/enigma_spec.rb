@@ -95,8 +95,8 @@ RSpec.describe Enigma do
       message1 = 'JoE KIng'
       message2 = 'joe king'
 
-      expect(enigma.message_to_ord(message1)).to eq([9, 14, 4, 26, 10, 8, 13, 6])
-      expect(enigma.message_to_ord(message1)).to eq(enigma.message_to_ord(message2))
+      expect(enigma.message_to_alph_index(message1)).to eq([9, 14, 4, 26, 10, 8, 13, 6])
+      expect(enigma.message_to_alph_index(message1)).to eq(enigma.message_to_alph_index(message2))
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe Enigma do
     it 'takes ordinals and returns string of characters' do
       indices = [9, 14, 4, 26, 10, 8, 13, 6]
 
-      expect(enigma.alph_index_to_message(ordinals)).to eq('joe king')
+      expect(enigma.alph_index_to_message(indices)).to eq('joe king')
     end
   end
 end

@@ -50,5 +50,15 @@ class Enigma
       date: date }
   end
 
+  def message_to_alph_index(message)
+    message.downcase.chars.map do |char|
+      @alphabet.find_index(char)
+    end
+  end
 
+  def alph_index_to_message(indices)
+    indices.map do |index|
+      @alphabet[index]
+    end.join
+  end
 end
