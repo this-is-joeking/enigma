@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Enigma
   def initialize
     @alphabet = ('a'..'z').to_a << ' '
@@ -19,7 +21,7 @@ class Enigma
   end
 
   def date_format(date = today)
-    squared = date.to_i ** 2
+    squared = date.to_i**2
     squared.digits[0..3].reverse
   end
 
@@ -42,7 +44,8 @@ class Enigma
     encrypted_values = []
 
     message_to_alph_index(message).each_with_index do |char, index|
-      next encrypted_values << char if !char.is_a?(Integer)
+      next encrypted_values << char unless char.is_a?(Integer)
+
       encrypted_values << (char + shift[index % 4]) % 27
     end
     { encryption: alph_index_to_message(encrypted_values),
@@ -52,15 +55,16 @@ class Enigma
 
   def message_to_alph_index(message)
     message.downcase.chars.map do |char|
-      next char if !@alphabet.any?(char)
-      @alphabet.find_index(char)
+      next char unless @alphabet.any?(char)
 
+      @alphabet.find_index(char)
     end
   end
 
   def alph_index_to_message(indices)
     indices.map do |index|
-      next index if !index.is_a?(Integer)
+      next index unless index.is_a?(Integer)
+
       @alphabet[index]
     end.join
   end
