@@ -19,7 +19,7 @@ RSpec.describe Enigma do
   end
 
   describe '#key_format()' do
-    it 'if key is specified it turns key from string to array' do
+    it 'if key is specified it turns string key to array of integers' do
       key1 = '94724'
       key2 = '01258'
 
@@ -32,6 +32,16 @@ RSpec.describe Enigma do
     it 'turns the 5 random numbers into array of the offsets for ABCD' do
       expect(enigma.key_to_initial_offset([2, 6, 2, 3, 8])).to eq([26, 62, 23, 38])
       expect(enigma.key_to_initial_offset([5, 2, 4, 9, 7])).to eq([52, 24, 49, 97])
+    end
+  end
+
+  describe '#date_format()' do
+    it 'gets the shift values from date, optional argument if date specified' do
+      date1 = '101122'
+      date2 = '221292'
+
+      expect(enigma.date_format(date1)).to eq([8, 8, 8, 4])
+      expect(enigma.date_format(date2)).to eq([9, 2, 6, 4])
     end
   end
 end

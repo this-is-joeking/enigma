@@ -14,4 +14,9 @@ class Enigma
     consecutive_key = key.each_cons(2).to_a
     consecutive_key.map { |pair| pair.join.to_i }
   end
+
+  def date_format(date = today)
+    squared = date.to_i ** 2
+    squared.digits[0..3].reverse
+  end
 end
