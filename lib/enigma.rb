@@ -23,4 +23,14 @@ class Enigma
   def today
     Time.now.strftime('%d%m%y')
   end
+
+  def shift_values(key = key_generator, date = today)
+    initial_offset = key_to_initial_offset(key_format(key))
+    date_offset = date_format(date)
+    combined_offset = []
+    initial_offset.each_with_index do |element, index|
+      combined_offset << element + date_offset[index]
+    end
+    combined_offset.map { |shift| shift % 27}
+  end
 end
