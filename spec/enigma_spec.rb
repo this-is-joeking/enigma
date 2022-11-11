@@ -81,12 +81,22 @@ RSpec.describe Enigma do
   end
 
   describe '#encrypt' do
-    it 'returns hash with encrypted message date and key' do
+    xit 'returns hash with encrypted message date and key' do
       encryption = enigma.encrypt('joe King', '73009', '101122')
 
       expect(encryption[:encryption]).to eq('jzmmktvt')
       expect(encryption[:key]).to eq('73009')
       expect(encryption[:date]).to eq('101122')
+    end
+  end
+
+  describe '#format_message()' do
+    it 'sets message to downcase and to array of ordinal values' do
+      message1 = 'JoE KIng'
+      message2 = 'joe king'
+
+      expect(enigma.format_message(message1)).to eq([106, 111, 101, 32, 107, 105, 110, 103])
+      expect(enigma.format_message(message1)).to eq(enigma.format_message(message2))
     end
   end
 end
