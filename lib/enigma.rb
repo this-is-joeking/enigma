@@ -33,4 +33,14 @@ class Enigma
     end
     combined_offset.map { |shift| shift % 27}
   end
+
+  def encrypt(message, key = key_generator, date = today)
+    shift = shift_values(key, date)
+    require "pry"; binding.pry
+    message.downcase
+  end
+
+  def format_message(message)
+    message.downcase.chars.map { |char| char.ord}
+  end
 end
