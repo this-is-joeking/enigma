@@ -4,16 +4,16 @@ require './lib/date'
 
 RSpec.describe Date do
    let(:test_class) { Class.new { extend Date } }
-  describe '#date_format()' do
+  describe '#date_offset()' do
     it 'gets the shift values from date, optional argument if date specified' do
       date1 = '101122'
       date2 = '221292'
       date3 = 200407
-      no_date_given = test_class.date_format
+      no_date_given = test_class.date_offset(test_class.today)
 
-      expect(test_class.date_format(date1)).to eq([8, 8, 8, 4])
-      expect(test_class.date_format(date2)).to eq([9, 2, 6, 4])
-      expect(test_class.date_format(date3)).to eq([5, 6, 4, 9])
+      expect(test_class.date_offset(date1)).to eq([8, 8, 8, 4])
+      expect(test_class.date_offset(date2)).to eq([9, 2, 6, 4])
+      expect(test_class.date_offset(date3)).to eq([5, 6, 4, 9])
       expect(no_date_given.size).to eq(4)
 
       no_date_given.each do |element|

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Date
-  def date_format(date = today)
+  def date_offset(date)
     squared = date.to_i**2
     squared.digits[0..3].reverse
   end

@@ -8,22 +8,17 @@ class Enigma
     @alphabet = ('a'..'z').to_a << ' '
   end
 
-  def today
-    Time.now.strftime('%d%m%y')
-  end
-
-  def shift_values(key, date = today)
-    initial_offset = key.formatted_to_initial_offset
-    date_offset = date_format(date)
+  def shift_values(key, date)
     combined_offset = []
-    initial_offset.each_with_index do |element, index|
-      combined_offset << element + date_offset[index]
+    key.initial_offset.each_with_index do |element, index|
+      combined_offset << element + date_offset(date)[index]
     end
     combined_offset.map { |shift| shift % 27 }
   end
 
   def encrypt(message, key = Key.new, date = today)
     key = Key.new(key) unless key.is_a?(Key)
+    
     shift = shift_values(key, date)
     encrypted_values = []
 

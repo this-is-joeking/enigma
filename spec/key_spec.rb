@@ -33,13 +33,13 @@ RSpec.describe Key do
     end
   end
 
-  describe '#formatted_to_initial_offset()' do
+  describe '#initial_offset()' do
     it 'turns the 5 random numbers into array of the offsets for ABCD' do
       key1 = Key.new('26238')
       key2 = Key.new('52497')
 
-      expect(key1.formatted_to_initial_offset).to eq([26, 62, 23, 38])
-      expect(key2.formatted_to_initial_offset).to eq([52, 24, 49, 97])
+      expect(key1.initial_offset).to eq([26, 62, 23, 38])
+      expect(key2.initial_offset).to eq([52, 24, 49, 97])
     end
   end
 end

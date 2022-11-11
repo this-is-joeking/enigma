@@ -17,9 +17,8 @@ class Key
     @number.chars.map(&:to_i)
   end
 
-  def formatted_to_initial_offset
+  def initial_offset
     consecutive_key = format_to_array.each_cons(2).to_a
     consecutive_key.map { |pair| pair.join.to_i }
   end
-
 end

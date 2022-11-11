@@ -6,16 +6,6 @@ RSpec.describe Enigma do
     expect(enigma).to be_a Enigma
   end
 
-  # describe '#today' do
-  #   it 'turns todays date into string formatted as "DDMMYY"' do
-  #     expect(enigma.today).to be_a String
-  #     expect(enigma.today.size).to eq(6)
-  #     expect(enigma.today[0].to_i).to be <= 3
-  #     expect(enigma.today[2].to_i).to be <= 1
-  #     expect(enigma.today.chars[2..5]).to eq(['1', '1', '2', '2'])
-  #   end
-  # end
-
   describe '#shift_values()' do
     it 'takes key and formatted date and returns shift for keys A..D' do
       key1 = Key.new('73009')
