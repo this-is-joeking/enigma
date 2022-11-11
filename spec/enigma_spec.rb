@@ -21,7 +21,7 @@ RSpec.describe Enigma do
   describe '#key_to_initial_offset()' do
     it 'turns the 5 random numbers into array of the offsets for ABCD' do
       expect(enigma.key_to_initial_offset([2, 6, 2, 3, 8])).to eq([26, 62, 23, 38])
-      expect(enigma.ket_to_initial_offset([5, 2, 4, 9, 7])).to eq([52, 24, 49, 97])
+      expect(enigma.key_to_initial_offset([5, 2, 4, 9, 7])).to eq([52, 24, 49, 97])
     end
   end
 end
