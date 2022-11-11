@@ -18,6 +18,16 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#key_format()' do
+    it 'if key is specified it turns key from string to array' do
+      key1 = '94724'
+      key2 = '01258'
+
+      expect(enigma.key_format(key1)).to eq([9, 4, 7, 2, 4])
+      expect(enigma.key_format(key2)).to eq([0, 1, 2, 5, 8])
+    end
+  end
+
   describe '#key_to_initial_offset()' do
     it 'turns the 5 random numbers into array of the offsets for ABCD' do
       expect(enigma.key_to_initial_offset([2, 6, 2, 3, 8])).to eq([26, 62, 23, 38])
