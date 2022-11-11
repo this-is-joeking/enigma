@@ -1,5 +1,4 @@
 class Enigma
-
   def key_generator
     key = []
     5.times { key << rand(10) }
@@ -7,7 +6,7 @@ class Enigma
   end
 
   def key_format(key)
-    key.chars.map { |num| num.to_i }
+    key.chars.map(&:to_i)
   end
 
   def key_to_initial_offset(key)
@@ -31,7 +30,7 @@ class Enigma
     initial_offset.each_with_index do |element, index|
       combined_offset << element + date_offset[index]
     end
-    combined_offset.map { |shift| shift % 27}
+    combined_offset.map { |shift| shift % 27 }
   end
 
   def encrypt(message, key = key_generator, date = today)
@@ -40,19 +39,18 @@ class Enigma
     encrypted_values = []
 
     message_values.each_with_index do |ord_val, index|
-      encrypted_values << ord_val + shift_values[index % 4]
+      encrypted_values << ord_val + shift[index % 4]
     end
     { encryption: ord_to_message(encrypted_values),
       key: key,
-      date: date
-    }
+      date: date }
   end
 
   def message_to_ord(message)
-    message.downcase.chars.map { |char| char.ord}
+    message.downcase.chars.map(&:ord)
   end
 
   def ord_to_message(ordinals_array)
-    ordinals_array.map { |ord| ord.chr}.join
+    ordinals_array.map(&:chr).join
   end
 end
