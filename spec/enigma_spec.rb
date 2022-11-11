@@ -90,13 +90,21 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#format_message()' do
+  describe '#message_to_ord()' do
     it 'sets message to downcase and to array of ordinal values' do
       message1 = 'JoE KIng'
       message2 = 'joe king'
 
-      expect(enigma.format_message(message1)).to eq([106, 111, 101, 32, 107, 105, 110, 103])
-      expect(enigma.format_message(message1)).to eq(enigma.format_message(message2))
+      expect(enigma.message_to_ord(message1)).to eq([106, 111, 101, 32, 107, 105, 110, 103])
+      expect(enigma.message_to_ord(message1)).to eq(enigma.message_to_ord(message2))
+    end
+  end
+
+  describe '#ord_to_message()' do
+    it 'takes ordinals and returns string of characters' do
+      ordinals = [106, 111, 101, 32, 107, 105, 110, 103]
+
+      expect(enigma.ord_to_message(ordinals)).to eq('joe king')
     end
   end
 end

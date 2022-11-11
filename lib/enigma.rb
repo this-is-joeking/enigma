@@ -37,10 +37,14 @@ class Enigma
   def encrypt(message, key = key_generator, date = today)
     shift = shift_values(key, date)
     require "pry"; binding.pry
-    message.downcase
+    message_values = message_to_ord(message)
+    encrypted_values = []
+    message_values.each_with_index do |ord_val, index|
+      encrypted_values << ord_val + shift_values[index % 4]
+    end
   end
 
-  def format_message(message)
+  def message_to_ord(message)
     message.downcase.chars.map { |char| char.ord}
   end
 end
