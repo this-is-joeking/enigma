@@ -22,8 +22,11 @@ RSpec.describe Enigma do
 
   describe '#shift()' do
     it 'shifts the values of chars based on shift values' do
-      expect(enigma.shift('joe King', Key.new('73009'), '101122')).to eq([9, 25, 12, 12, 10, 19, 21, 19])
-      expect(enigma.shift('hello world', Key.new('02715'), '040895')).to eq([10, 4, 3, 4, 17, 26, 14, 7, 20, 11, 22])
+      expected1 = enigma.shift('joe King', Key.new('73009'), '101122')
+      expected2 = enigma.shift('hello world', Key.new('02715'), '040895')
+
+      expect(expected1).to eq([9, 25, 12, 12, 10, 19, 21, 19])
+      expect(expected2).to eq([10, 4, 3, 4, 17, 26, 14, 7, 20, 11, 22])
     end
   end
 
@@ -46,14 +49,16 @@ RSpec.describe Enigma do
   end
 
   describe '#message_to_alph_index()' do
-    it 'sets message to downcase and to array of ordinal values' do
+    it 'sets message to downcase and to array of values aligned with #alpha' do
       message1 = 'JoE KIng'
       message2 = 'joe king'
       message3 = 'Hello world'
-
-      expect(enigma.message_to_alph_index(message1)).to eq([9, 14, 4, 26, 10, 8, 13, 6])
-      expect(enigma.message_to_alph_index(message1)).to eq(enigma.message_to_alph_index(message2))
-      expect(enigma.message_to_alph_index(message3)).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
+      expected1 = enigma.message_to_alph_index(message1)
+      expected2 = enigma.message_to_alph_index(message2)
+      expected3 = enigma.message_to_alph_index(message3)
+      expect(expected1).to eq([9, 14, 4, 26, 10, 8, 13, 6])
+      expect(expected1).to eq(expected2)
+      expect(expected3).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
     end
 
     it 'skips special characters leaving them as a character' do
