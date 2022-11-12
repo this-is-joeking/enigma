@@ -19,9 +19,9 @@ RSpec.describe Enigma do
   end
 
   describe '#shift()' do
-    it 'returns the encrypted message' do
-      expect(enigma.shift('joe King', Key.new('73009'), '101122')).to eq('jzmmktvt')
-      expect(enigma.shift('hello world', Key.new('02715'), '040895')).to eq('keder ohulw')
+    it 'shifts the values of chars based on shift values' do
+      expect(enigma.shift('joe King', Key.new('73009'), '101122')).to eq([9, 25, 12, 12, 10, 19, 21, 19])
+      expect(enigma.shift('hello world', Key.new('02715'), '040895')).to eq([10, 4, 3, 4, 17, 26, 14, 7, 20, 11, 22])
     end
   end
 
