@@ -17,9 +17,7 @@ class Enigma
     combined_offset.map { |shift| shift % 27 }
   end
 
-  def encrypt(message, key = Key.new, date = today)
-    key = Key.new(key) unless key.is_a?(Key)
-
+  def shift(message, key, date)
     shift = shift_values(key, date)
     encrypted_values = []
 
@@ -28,7 +26,13 @@ class Enigma
 
       encrypted_values << (char + shift[index % 4]) % 27
     end
-    { encryption: alph_index_to_message(encrypted_values),
+    encrypted_values
+  end
+
+  def encrypt(message, key = Key.new, date = today)
+    key = Key.new(key) unless key.is_a?(Key)
+    encrypted_message = shift(message, key, date)
+    { encryption: alph_index_to_message(encrypted_message),
       key: key.number,
       date: date }
   end
