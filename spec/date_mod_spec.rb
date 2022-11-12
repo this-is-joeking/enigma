@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './lib/date'
+require './lib/date_mod'
 
-RSpec.describe Date do
-   let(:test_class) { Class.new { extend Date } }
+RSpec.describe DateMod do
+   let(:test_class) { Class.new { extend DateMod } }
   describe '#date_offset()' do
     it 'gets the shift values from date, optional argument if date specified' do
       date1 = '101122'

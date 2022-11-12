@@ -1,8 +1,9 @@
 # frozen_string_literal: true
-require './date'
+require './lib/date_mod'
+require './lib/key'
 
 class Enigma
-  include Date
+  include DateMod
 
   def initialize
     @alphabet = ('a'..'z').to_a << ' '
@@ -18,7 +19,7 @@ class Enigma
 
   def encrypt(message, key = Key.new, date = today)
     key = Key.new(key) unless key.is_a?(Key)
-    
+
     shift = shift_values(key, date)
     encrypted_values = []
 
