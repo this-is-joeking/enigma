@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
 require './lib/enigma'
 
-plain_text = ARGV[0].prepend('./lib/')
-encrypted_text = ARGV[1].prepend('./lib/')
+message_file = File.open(ARGV[0], 'r')
+message = message_file.read
+message_file.close
 enigma = Enigma.new
-ciphertext = enigma.encrypt(File.read(plain_text))
-File.write(encrypted_text, ciphertext[:encryption])
+encryption = enigma.encrypt(message)
+ciphertext = File.open(ARGV[1], 'w')
+ciphertext.write(encryption[:encryption])
+ciphertext.close
