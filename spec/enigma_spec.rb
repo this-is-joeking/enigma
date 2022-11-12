@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/enigma'
 
 RSpec.describe Enigma do
@@ -80,12 +82,13 @@ RSpec.describe Enigma do
   end
 
   describe '#decrypt' do
-    xit 'returns hash with decrypted message, key, and date' do
-      expect(enigma.decrypt('keder ohulw', '02715', '040895')).to eq({
-        decryption: 'hello world',
-        key:        '02715',
-        date:       '040895'
-      })
+    it 'returns hash with decrypted message, key, and date' do
+      expect(enigma.decrypt('keder ohulw', '02715', '040895')).to eq(
+        {
+          decryption: 'hello world',
+          key: '02715',
+          date: '040895'
+        })
     end
   end
 end

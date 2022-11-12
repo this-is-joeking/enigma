@@ -38,6 +38,26 @@ class Enigma
       date: date }
   end
 
+  def unshift(message, key, date)
+    shift = shift_values(key, date)
+    decrypted_values = []
+
+    message_to_alph_index(message).each_with_index do |char, index|
+      next decrypted_values << char unless char.is_a?(Integer)
+
+      decrypted_values << (char - shift[index % 4]) % 27
+    end
+    decrypted_values
+  end
+
+  def decrypt(ciphertext, key, date = today)
+    key = Key.new(key)
+    decrypted_message = unshift(ciphertext, key, date)
+    { decryption: alph_index_to_message(decrypted_message),
+      key: key.number,
+      date: date }
+  end
+
   def message_to_alph_index(message)
     message.downcase.chars.map do |char|
       next char unless alpha.any?(char)
