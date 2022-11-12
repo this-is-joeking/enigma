@@ -10,4 +10,4 @@ encryption = enigma.encrypt(message)
 ciphertext = File.open(ARGV[1], 'w')
 ciphertext.write(encryption[:encryption])
 ciphertext.close
-puts encryption[:key]
+puts "Created '#{ARGV[1]}' with the key #{encryption[:key]} and the date #{encryption[:date]}"
