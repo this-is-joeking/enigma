@@ -18,6 +18,13 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#shift()' do
+    it 'returns the encrypted message' do
+      expect(enigma.shift('joe King', Key.new('73009'), '101122')).to eq('jzmmktvt')
+      expect(enigma.shift('hello world', Key.new('02715'), '040895')).to eq('keder ohulw')
+    end
+  end
+
   describe '#encrypt' do
     it 'returns hash with encrypted message date and key' do
       encryption1 = enigma.encrypt('joe King', '73009', '101122')
