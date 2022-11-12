@@ -5,8 +5,8 @@ require './lib/key'
 class Enigma
   include DateMod
 
-  def initialize
-    @alphabet = ('a'..'z').to_a << ' '
+  def alpha
+    ('a'..'z').to_a << ' '
   end
 
   def shift_values(key, date)
@@ -35,9 +35,9 @@ class Enigma
 
   def message_to_alph_index(message)
     message.downcase.chars.map do |char|
-      next char unless @alphabet.any?(char)
+      next char unless alpha.any?(char)
 
-      @alphabet.find_index(char)
+      alpha.find_index(char)
     end
   end
 
@@ -45,7 +45,7 @@ class Enigma
     indices.map do |index|
       next index unless index.is_a?(Integer)
 
-      @alphabet[index]
+      alpha[index]
     end.join
   end
 end
