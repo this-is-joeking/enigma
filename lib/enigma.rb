@@ -1,45 +1,24 @@
 # frozen_string_literal: true
 
+require './lib/date_mod'
+require './lib/key'
+
 class Enigma
-  def initialize
-    @alphabet = ('a'..'z').to_a << ' '
+  include DateMod
+
+  def alpha
+    ('a'..'z').to_a << ' '
   end
 
-  def key_generator
-    key = []
-    5.times { key << rand(10) }
-    key.join
-  end
-
-  def key_format(key)
-    key.chars.map(&:to_i)
-  end
-
-  def key_to_initial_offset(key)
-    consecutive_key = key.each_cons(2).to_a
-    consecutive_key.map { |pair| pair.join.to_i }
-  end
-
-  def date_format(date = today)
-    squared = date.to_i**2
-    squared.digits[0..3].reverse
-  end
-
-  def today
-    Time.now.strftime('%d%m%y')
-  end
-
-  def shift_values(key = key_generator, date = today)
-    initial_offset = key_to_initial_offset(key_format(key))
-    date_offset = date_format(date)
+  def shift_values(key, date)
     combined_offset = []
-    initial_offset.each_with_index do |element, index|
-      combined_offset << element + date_offset[index]
+    key.initial_offset.each_with_index do |element, index|
+      combined_offset << element + date_offset(date)[index]
     end
     combined_offset.map { |shift| shift % 27 }
   end
 
-  def encrypt(message, key = key_generator, date = today)
+  def shift(message, key, date)
     shift = shift_values(key, date)
     encrypted_values = []
 
@@ -48,16 +27,22 @@ class Enigma
 
       encrypted_values << (char + shift[index % 4]) % 27
     end
-    { encryption: alph_index_to_message(encrypted_values),
-      key: key,
+    encrypted_values
+  end
+
+  def encrypt(message, key = Key.new, date = today)
+    key = Key.new(key) unless key.is_a?(Key)
+    encrypted_message = shift(message, key, date)
+    { encryption: alph_index_to_message(encrypted_message),
+      key: key.number,
       date: date }
   end
 
   def message_to_alph_index(message)
     message.downcase.chars.map do |char|
-      next char unless @alphabet.any?(char)
+      next char unless alpha.any?(char)
 
-      @alphabet.find_index(char)
+      alpha.find_index(char)
     end
   end
 
@@ -65,7 +50,7 @@ class Enigma
     indices.map do |index|
       next index unless index.is_a?(Integer)
 
-      @alphabet[index]
+      alpha[index]
     end.join
   end
 end
