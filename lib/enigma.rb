@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './lib/date_mod'
 require './lib/key'
 

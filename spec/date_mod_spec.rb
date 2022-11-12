@@ -3,7 +3,7 @@
 require './lib/date_mod'
 
 RSpec.describe DateMod do
-   let(:test_class) { Class.new { extend DateMod } }
+  let(:test_class) { Class.new { extend DateMod } }
   describe '#date_offset()' do
     it 'gets the shift values from date, optional argument if date specified' do
       date1 = '101122'
@@ -24,7 +24,6 @@ RSpec.describe DateMod do
 
   describe '#today' do
     it 'turns todays date into string formatted as "DDMMYY"' do
-
       expect(test_class.today).to be_a String
       expect(test_class.today.size).to eq(6)
       expect(test_class.today[0].to_i).to be <= 3
@@ -32,5 +31,4 @@ RSpec.describe DateMod do
       expect(test_class.today.chars[2..5]).to eq(['1', '1', '2', '2'])
     end
   end
-
 end
