@@ -10,3 +10,4 @@ encryption = enigma.encrypt(message)
 ciphertext = File.open(ARGV[1], 'w')
 ciphertext.write(encryption[:encryption])
 ciphertext.close
+puts encryption[:key]
