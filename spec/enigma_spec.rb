@@ -47,9 +47,11 @@ RSpec.describe Enigma do
     it 'sets message to downcase and to array of ordinal values' do
       message1 = 'JoE KIng'
       message2 = 'joe king'
+      message3 = 'Hello world'
 
       expect(enigma.message_to_alph_index(message1)).to eq([9, 14, 4, 26, 10, 8, 13, 6])
       expect(enigma.message_to_alph_index(message1)).to eq(enigma.message_to_alph_index(message2))
+      expect(enigma.message_to_alph_index(message3)).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
     end
 
     it 'skips special characters leaving them as a character' do
@@ -67,6 +69,23 @@ RSpec.describe Enigma do
 
       expect(enigma.alph_index_to_message(indices1)).to eq('joe king')
       expect(enigma.alph_index_to_message(indices2)).to eq('joe king!')
+    end
+  end
+
+  describe '#unshift' do
+    it 'unshifts values based of chars based on shift values' do
+      expected = enigma.unshift('keder ohulw', Key.new('02715'), '040895')
+      expect(expected).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
+    end
+  end
+
+  describe '#decrypt' do
+    xit 'returns hash with decrypted message, key, and date' do
+      expect(enigma.decrypt('keder ohulw', '02715', '040895')).to eq({
+        decryption: 'hello world',
+        key:        '02715',
+        date:       '040895'
+      })
     end
   end
 end
