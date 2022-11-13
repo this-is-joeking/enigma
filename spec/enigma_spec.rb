@@ -115,6 +115,15 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#find_key()' do
+    it 'returns the key' do
+      shift = [0, 11, 8, 13]
+      date = '101122'
+      
+      expect(enigma.find_key(shift, date)).to eq(73009)
+    end
+  end
+
   describe '#crack()' do
     it 'cracks an encryption with encrypted message and date' do
       cracked1 = enigma.crack('vjqtbeaweqihssi', '291018')
