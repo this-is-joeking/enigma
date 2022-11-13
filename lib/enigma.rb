@@ -74,4 +74,27 @@ class Enigma
       date: date }
   end
 
+  def find_shift(ciphertext)
+    decrypted_end = message_to_alph_index(' end')
+    encrypted_end = message_to_alph_index(ciphertext[-4..])
+    cracked_shift = []
+    encrypted_end.each_with_index do |encrypted_char, index|
+      cracked_shift << (decrypted_end[index] - encrypted_char) % 27
+    end
+    cracked_shift
+  end
+
+  def crack(ciphertext, date = today)
+    cracked_shift = find_shift(ciphertext).reverse
+    cracked_values = []
+    message_to_alph_index(ciphertext.reverse).each_with_index do |char, index|
+      next cracked_values << char unless char.is_a?(Integer)
+
+      cracked_values << (char + cracked_shift[index % 4]) % 27
+    end
+    cracked = alph_index_to_message(cracked_values.reverse)
+
+    { decryption: cracked,
+    date: date}
+  end
 end
