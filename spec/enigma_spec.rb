@@ -104,6 +104,17 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#align_shift()' do
+    it 'aligns the shift so it can start from beginning of message' do
+      shift = [1, 2, 3, 4]
+      msg1 = ' end'
+      msg2 = 'y end'
+
+      expect(enigma.align_shift(msg1, shift)).to eq([1, 2, 3, 4])
+      expect(enigma.align_shift(msg2, shift)).to eq([2, 3, 4, 1])
+    end
+  end
+
   describe '#crack()' do
     it 'cracks an encryption with encrypted message and date' do
       cracked1 = enigma.crack('vjqtbeaweqihssi', '291018')

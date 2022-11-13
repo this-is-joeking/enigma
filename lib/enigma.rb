@@ -84,6 +84,10 @@ class Enigma
     cracked_shift
   end
 
+  def align_shift(message, shift)
+    shift.rotate(message.size % 4)
+  end
+
   def crack(ciphertext, date = today)
     cracked_shift = find_shift(ciphertext).reverse
     cracked_values = []
