@@ -99,6 +99,6 @@ class Enigma
     cracked = alph_index_to_message(cracked_values.reverse)
 
     { decryption: cracked,
-    date: date}
+      date: date }
   end
 end
