@@ -10,6 +10,22 @@ class Enigma
     ('a'..'z').to_a << ' '
   end
 
+  def message_to_alph_index(message)
+    message.downcase.chars.map do |char|
+      next char unless alpha.any?(char)
+
+      alpha.find_index(char)
+    end
+  end
+
+  def alph_index_to_message(indices)
+    indices.map do |index|
+      next index unless index.is_a?(Integer)
+
+      alpha[index]
+    end.join
+  end
+
   def shift_values(key, date)
     combined_offset = []
     key.initial_offset.each_with_index do |element, index|
@@ -58,19 +74,4 @@ class Enigma
       date: date }
   end
 
-  def message_to_alph_index(message)
-    message.downcase.chars.map do |char|
-      next char unless alpha.any?(char)
-
-      alpha.find_index(char)
-    end
-  end
-
-  def alph_index_to_message(indices)
-    indices.map do |index|
-      next index unless index.is_a?(Integer)
-
-      alpha[index]
-    end.join
-  end
 end

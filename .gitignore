@@ -1,5 +1,5 @@
 # Files and Folders to Ignore
 /coverage/
 .DS_Store
-decrypted.txt
-encrypted.txt
+/decrypted.txt
+/encrypted.txt

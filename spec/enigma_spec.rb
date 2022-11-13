@@ -8,6 +8,12 @@ RSpec.describe Enigma do
     expect(enigma).to be_a Enigma
   end
 
+  describe '#alpha' do
+    it 'makes an array of downcase alphabet and space' do
+      expect(enigma.alpha).to eq(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '])
+    end
+  end
+
   describe '#shift_values()' do
     it 'takes key and formatted date and returns shift for keys A..D' do
       key1 = Key.new('73009')
