@@ -102,4 +102,18 @@ RSpec.describe Enigma do
         })
     end
   end
+
+  describe '#crack()' do
+    it 'cracks an encryption with encrypted message and date' do
+      cracked1 = enigma.crack('vjqtbeaweqihssi', '291018')
+      cracked2 = enigma.crack('svhrzwrzsvdzdac', '131122')
+
+      expect(cracked1[:decryption]).to eq('hello world end')
+      expect(cracked1[:date]).to eq('291018')
+      expect(cracked1[:key]).to eq('08304')
+      expect(cracked2[:decryption]).to eq('this is the end')
+      expect(cracked2[:date]).to eq('131122')
+      expect(cracked2[:key]).to eq('18722')
+    end
+  end
 end
