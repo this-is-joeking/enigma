@@ -104,19 +104,36 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#find_shift' do
+    it 'finds how shifted the last 4 characters are in the ciphertext' do
+      expect(enigma.find_shift('Not encrypted message end')).to eq([0, 0, 0, 0])
+      expect(enigma.find_shift('keder ohulwthnw')).to include(3, 0, 19, 20)
+      expect(enigma.find_shift('keder ohulwthnw')).to eq([20, 3, 0, 19])
+      
+      encrypted2 = enigma.encrypt('joe King! end', '73009', '101122')
+    
+      expect(enigma.find_shift(encrypted2[:encryption])).to include(0, 11, 8, 13)
+      expect(enigma.find_shift(encrypted2[:encryption])).to eq([11, 8, 13, 0])
+    end
+  end
+
   describe '#align_shift()' do
     it 'aligns the shift so it can start from beginning of message' do
-      shift = [1, 2, 3, 4]
+      shift1 = [1, 2, 3, 4]
+      shift2 = [11, 8, 13, 0]
+      shift3 = [20, 3, 0, 19]
       msg1 = ' end'
-      msg2 = 'y end'
+      msg2 = 'jzmmktvt!km d'
+      msg3 = 'keder ohulwthnw'
 
-      expect(enigma.align_shift(msg1, shift)).to eq([1, 2, 3, 4])
-      expect(enigma.align_shift(msg2, shift)).to eq([2, 3, 4, 1])
+      expect(enigma.align_shift(msg1, shift1)).to eq([1, 2, 3, 4])
+      expect(enigma.align_shift(msg2, shift2)).to eq([0, 11, 8, 13])
+      expect(enigma.align_shift(msg3, shift3)).to eq([3, 0, 19, 20])
     end
   end
 
   describe '#find_key()' do
-    it 'returns the key' do
+    xit 'returns the key' do
       shift = [0, 11, 8, 13]
       date = '101122'
 
@@ -125,9 +142,11 @@ RSpec.describe Enigma do
   end
 
   describe '#crack()' do
-    it 'cracks an encryption with encrypted message and date' do
+    it 'cracks an encrypted message and date' do
       cracked1 = enigma.crack('vjqtbeaweqihssi', '291018')
       cracked2 = enigma.crack('svhrzwrzsvdzdac', '131122')
+      encrypted = enigma.encrypt('and they lived happily ever after, the end')
+      cracked3 = enigma.crack(encrypted[:encryption])
 
       expect(cracked1[:decryption]).to eq('hello world end')
       expect(cracked1[:date]).to eq('291018')
@@ -135,6 +154,8 @@ RSpec.describe Enigma do
       expect(cracked2[:decryption]).to eq('this is the end')
       expect(cracked2[:date]).to eq('131122')
       # expect(cracked2[:key]).to eq('18722')
+      expect(cracked3[:decryption]).to eq('and they lived happily ever after, the end')
+      expect(cracked3[:date]).to eq(Time.now.strftime('%d%m%y'))
     end
   end
 end
