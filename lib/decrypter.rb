@@ -11,7 +11,7 @@ class Decrypter
               :key,
               :date,
               :ciphertext
-  
+
   def initialize(ciphertext, key, date)
     @ciphertext = ciphertext
     @key = key

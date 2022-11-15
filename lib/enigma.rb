@@ -6,7 +6,6 @@ require './lib/decrypter'
 require './lib/cracker'
 
 class Enigma
-
   def encrypt(message, key = Key.new, date = Date.new)
     key = Key.new(key) unless key.is_a?(Key)
 
@@ -31,7 +30,7 @@ class Enigma
   def crack(ciphertext, date = Date.new)
     date = Date.new(date) unless date.is_a?(Date)
     cracker = Cracker.new(ciphertext, date)
-  
+
     cracked_message = Decrypter.new(ciphertext, cracker.key, date)
 
     { decryption: cracked_message.message,

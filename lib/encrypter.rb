@@ -11,7 +11,7 @@ class Encrypter
               :key,
               :date,
               :ciphertext
-  
+
   def initialize(message, key, date)
     @message = message
     @key = key

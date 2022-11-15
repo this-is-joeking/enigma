@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/cracker'
 
 RSpec.describe Cracker do
@@ -13,7 +15,7 @@ RSpec.describe Cracker do
     it 'finds how shifted the last 4 characters are in the ciphertext' do
       cracker1 = Cracker.new('Not encrypted message end', Date.new)
       cracker2 = Cracker.new('keder ohulwthnw', Date.new)
-      
+
       expect(cracker1.find_offsets_from_end).to eq([0, 0, 0, 0])
       expect(cracker2.find_offsets_from_end).to include(3, 0, 19, 20)
     end

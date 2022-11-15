@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 
 module Alpha
-
   def alpha
     ('a'..'z').to_a << ' '
   end
@@ -20,5 +20,4 @@ module Alpha
       alpha[index]
     end.join
   end
-
 end

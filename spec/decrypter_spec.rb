@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/decrypter'
 
 RSpec.describe Decrypter do
