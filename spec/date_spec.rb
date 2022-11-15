@@ -31,6 +31,7 @@ RSpec.describe Date do
   describe '#today' do
     it 'turns todays date into string formatted as "DDMMYY"' do
       date = Date.new
+      
       expect(date.today).to be_a String
       expect(date.today.size).to eq(6)
       expect(date.today[0].to_i).to be <= 3
