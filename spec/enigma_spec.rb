@@ -14,6 +14,38 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#message_to_alph_index()' do
+    it 'sets message to downcase and to array of values aligned with #alpha' do
+      message1 = 'JoE KIng'
+      message2 = 'joe king'
+      message3 = 'Hello world'
+      expected1 = enigma.message_to_alph_index(message1)
+      expected2 = enigma.message_to_alph_index(message2)
+      expected3 = enigma.message_to_alph_index(message3)
+      
+      expect(expected1).to eq([9, 14, 4, 26, 10, 8, 13, 6])
+      expect(expected1).to eq(expected2)
+      expect(expected3).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
+    end
+
+    it 'skips special characters leaving them as a character' do
+      message = 'Hello-world!'
+
+      expect(enigma.message_to_alph_index(message)[5]).to eq('-')
+      expect(enigma.message_to_alph_index(message)[11]).to eq('!')
+    end
+  end
+
+  describe '#alph_index_to_message()' do
+    it 'takes ordinals and returns string of characters skipping special chars' do
+      indices1 = [9, 14, 4, 26, 10, 8, 13, 6]
+      indices2 = [9, 14, 4, 26, 10, 8, 13, 6, '!']
+
+      expect(enigma.alph_index_to_message(indices1)).to eq('joe king')
+      expect(enigma.alph_index_to_message(indices2)).to eq('joe king!')
+    end
+  end
+
   describe '#shift_values()' do
     it 'takes key and formatted date and returns shift for keys A..D' do
       key1 = Key.new('73009')
@@ -54,36 +86,6 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#message_to_alph_index()' do
-    it 'sets message to downcase and to array of values aligned with #alpha' do
-      message1 = 'JoE KIng'
-      message2 = 'joe king'
-      message3 = 'Hello world'
-      expected1 = enigma.message_to_alph_index(message1)
-      expected2 = enigma.message_to_alph_index(message2)
-      expected3 = enigma.message_to_alph_index(message3)
-      expect(expected1).to eq([9, 14, 4, 26, 10, 8, 13, 6])
-      expect(expected1).to eq(expected2)
-      expect(expected3).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
-    end
-
-    it 'skips special characters leaving them as a character' do
-      message = 'Hello-world!'
-
-      expect(enigma.message_to_alph_index(message)[5]).to eq('-')
-      expect(enigma.message_to_alph_index(message)[11]).to eq('!')
-    end
-  end
-
-  describe '#alph_index_to_message()' do
-    it 'takes ordinals and returns string of characters skipping special chars' do
-      indices1 = [9, 14, 4, 26, 10, 8, 13, 6]
-      indices2 = [9, 14, 4, 26, 10, 8, 13, 6, '!']
-
-      expect(enigma.alph_index_to_message(indices1)).to eq('joe king')
-      expect(enigma.alph_index_to_message(indices2)).to eq('joe king!')
-    end
-  end
 
   describe '#unshift' do
     it 'unshifts values based of chars based on shift values' do

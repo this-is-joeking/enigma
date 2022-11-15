@@ -5,6 +5,7 @@ require './lib/key'
 
 class Enigma
   include DateMod
+  # consider injecting DateMod back into enigma
 
   def alpha
     ('a'..'z').to_a << ' '
