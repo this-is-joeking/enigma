@@ -8,28 +8,6 @@ RSpec.describe Enigma do
     expect(enigma).to be_a Enigma
   end
 
-  describe '#key_and_date_offsets()' do
-    it 'takes key and formatted date and returns shift for keys A..D' do
-      key1 = Key.new('73009')
-      key2 = Key.new('34129')
-      date1 = Date.new('101122')
-      date2 = Date.new('240597')
-
-      expect(enigma.key_and_date_offsets(key1, date1)).to eq([0, 11, 8, 13])
-      expect(enigma.key_and_date_offsets(key2, date2)).to eq([13, 18, 12, 11])
-    end
-  end
-
-  describe '#shift()' do
-    it 'shifts the values of chars based on shift values' do
-      expected1 = enigma.shift('joe King', Key.new('73009'), Date.new('101122'))
-      expected2 = enigma.shift('hello world', Key.new('02715'), Date.new('040895'))
-
-      expect(expected1).to eq([9, 25, 12, 12, 10, 19, 21, 19])
-      expect(expected2).to eq([10, 4, 3, 4, 17, 26, 14, 7, 20, 11, 22])
-    end
-  end
-
   describe '#encrypt' do
     it 'returns hash with encrypted message date and key' do
       encryption1 = enigma.encrypt('joe King', '73009', '101122')

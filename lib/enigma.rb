@@ -2,6 +2,7 @@
 
 require './lib/key'
 require './lib/alpha'
+require './lib/encrypter'
 
 class Enigma
   include Alpha
@@ -14,25 +15,13 @@ class Enigma
     combined_offset.map { |shift| shift % 27 }
   end
 
-  def shift(message, key, date)
-    shift = key_and_date_offsets(key, date)
-    encrypted_values = []
-
-    message_to_alpha_index(message).each_with_index do |char, index|
-      next encrypted_values << char unless char.is_a?(Integer)
-
-      encrypted_values << (char + shift[index % 4]) % 27
-    end
-    encrypted_values
-  end
-
   def encrypt(message, key = Key.new, date = Date.new)
     key = Key.new(key) unless key.is_a?(Key)
 
     date = Date.new(date) unless date.is_a?(Date)
 
-    encrypted_message = shift(message, key, date)
-    { encryption: alpha_index_to_message(encrypted_message),
+    encrypted_message = Encrypter.new(message, key, date)
+    { encryption: encrypted_message.ciphertext,
       key: key.number,
       date: date.date }
   end
