@@ -133,11 +133,11 @@ RSpec.describe Enigma do
   end
 
   describe '#find_key()' do
-    xit 'returns the key' do
-      shift = [0, 11, 8, 13]
-      date = '101122'
+    it 'returns the key' do
+      shift1 = [0, 11, 8, 13]
+      date1 = '101122'
 
-      expect(enigma.find_key(shift, date)).to eq(73009)
+      expect(enigma.find_key(shift1, date1)).to eq('73009')
     end
   end
 
@@ -150,10 +150,10 @@ RSpec.describe Enigma do
 
       expect(cracked1[:decryption]).to eq('hello world end')
       expect(cracked1[:date]).to eq('291018')
-      # expect(cracked1[:key]).to eq('08304')
+      expect(cracked1[:key]).to eq('08304')
       expect(cracked2[:decryption]).to eq('this is the end')
       expect(cracked2[:date]).to eq('131122')
-      # expect(cracked2[:key]).to eq('18722')
+      expect(cracked2[:key]).to eq('18722')
       expect(cracked3[:decryption]).to eq('and they lived happily ever after, the end')
       expect(cracked3[:date]).to eq(Time.now.strftime('%d%m%y'))
     end

@@ -88,6 +88,21 @@ class Enigma
     shift.rotate(4 - message.size % 4)
   end
 
+  def find_key(shift, date)
+    date_shift = date_offset(date)
+    key_shift = []
+    shift.each_with_index do |shift_value, index|
+      key_shift << (shift_value - date_shift[index]) % 27
+    end
+    ('00000'..'99999').to_a.find do |potential_key|
+      key = Key.new(potential_key).initial_offset
+      reduced_key = key.map do |offset|
+        offset % 27 
+      end
+      reduced_key == key_shift
+    end
+  end
+
   def crack(ciphertext, date = today)
     cracked_shift = align_shift(ciphertext, find_shift(ciphertext))
     cracked_values = []
@@ -99,6 +114,7 @@ class Enigma
     cracked = alph_index_to_message(cracked_values)
 
     { decryption: cracked,
-      date: date }
+      date: date,
+      key: find_key(cracked_shift, date)}
   end
 end
