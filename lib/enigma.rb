@@ -78,7 +78,7 @@ class Enigma
       date: date }
   end
 
-  def find_shift(ciphertext)
+  def find_offset(ciphertext)
     decrypted_end = message_to_alpha_index(' end')
     encrypted_end = message_to_alpha_index(ciphertext[-4..])
     cracked_shift = []
@@ -92,16 +92,16 @@ class Enigma
     shift.rotate(4 - message.size % 4)
   end
 
-  def find_key_offset(shift, date)
+  def find_key_offsets(offsets, date)
     key_offset = []
-    shift.each_with_index do |shift_value, index|
-      key_offset << (shift_value - date_offset(date)[index]) % 27
+    offsets.each_with_index do |offset, index|
+      key_offset << (offset - date_offset(date)[index]) % 27
     end
     key_offset
   end
 
-  def find_key(shift, date)
-    key_offset = find_key_offset(shift, date)
+  def find_key(offsets, date)
+    key_offset = find_key_offsets(offsets, date)
     ('00000'..'99999').to_a.find do |potential_key|
       key = Key.new(potential_key).initial_offset
       reduced_key = key.map do |offset|
@@ -112,17 +112,12 @@ class Enigma
   end
 
   def crack(ciphertext, date = today)
-    cracked_shift = align_offsets(ciphertext, find_shift(ciphertext))
-    cracked_values = []
-    message_to_alpha_index(ciphertext).each_with_index do |char, index|
-      next cracked_values << char unless char.is_a?(Integer)
-
-      cracked_values << (char - cracked_shift[index % 4]) % 27
-    end
-    cracked = alpha_index_to_message(cracked_values)
-
-    { decryption: cracked,
+    cracked_offset = align_offsets(ciphertext, find_offset(ciphertext))
+    cracked_key = Key.new(find_key(cracked_offset, date))
+    cracked_message = unshift(ciphertext, cracked_key, date)
+  
+    { decryption: alpha_index_to_message(cracked_message),
       date: date,
-      key: find_key(cracked_shift, date) }
+      key: cracked_key.number }
   end
 end
