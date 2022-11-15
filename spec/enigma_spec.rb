@@ -135,6 +135,15 @@ RSpec.describe Enigma do
     end
   end
 
+  describe '#find_key_shift()' do
+    it 'returns the shifts created by the key' do
+      cracked_shift = [0, 11, 8, 13]
+      date = '101122'
+
+      expect(enigma.find_key_shift(cracked_shift, date)).to eq([19, 3, 0, 9])
+    end
+  end
+
   describe '#find_key()' do
     it 'returns the key' do
       shift1 = [0, 11, 8, 13]
