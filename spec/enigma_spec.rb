@@ -16,14 +16,14 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#message_to_alph_index()' do
+  describe '#message_to_alpha_index()' do
     it 'sets message to downcase and to array of values aligned with #alpha' do
       message1 = 'JoE KIng'
       message2 = 'joe king'
       message3 = 'Hello world'
-      expected1 = enigma.message_to_alph_index(message1)
-      expected2 = enigma.message_to_alph_index(message2)
-      expected3 = enigma.message_to_alph_index(message3)
+      expected1 = enigma.message_to_alpha_index(message1)
+      expected2 = enigma.message_to_alpha_index(message2)
+      expected3 = enigma.message_to_alpha_index(message3)
 
       expect(expected1).to eq([9, 14, 4, 26, 10, 8, 13, 6])
       expect(expected1).to eq(expected2)
@@ -33,30 +33,30 @@ RSpec.describe Enigma do
     it 'skips special characters leaving them as a character' do
       message = 'Hello-world!'
 
-      expect(enigma.message_to_alph_index(message)[5]).to eq('-')
-      expect(enigma.message_to_alph_index(message)[11]).to eq('!')
+      expect(enigma.message_to_alpha_index(message)[5]).to eq('-')
+      expect(enigma.message_to_alpha_index(message)[11]).to eq('!')
     end
   end
 
-  describe '#alph_index_to_message()' do
+  describe '#alpha_index_to_message()' do
     it 'takes ordinals and returns string of characters skipping special chars' do
       indices1 = [9, 14, 4, 26, 10, 8, 13, 6]
       indices2 = [9, 14, 4, 26, 10, 8, 13, 6, '!']
 
-      expect(enigma.alph_index_to_message(indices1)).to eq('joe king')
-      expect(enigma.alph_index_to_message(indices2)).to eq('joe king!')
+      expect(enigma.alpha_index_to_message(indices1)).to eq('joe king')
+      expect(enigma.alpha_index_to_message(indices2)).to eq('joe king!')
     end
   end
 
-  describe '#shift_values()' do
+  describe '#offset_values()' do
     it 'takes key and formatted date and returns shift for keys A..D' do
       key1 = Key.new('73009')
       key2 = Key.new('34129')
       date1 = '101122'
       date2 = '240597'
 
-      expect(enigma.shift_values(key1, date1)).to eq([0, 11, 8, 13])
-      expect(enigma.shift_values(key2, date2)).to eq([13, 18, 12, 11])
+      expect(enigma.offset_values(key1, date1)).to eq([0, 11, 8, 13])
+      expect(enigma.offset_values(key2, date2)).to eq([13, 18, 12, 11])
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#align_shift()' do
+  describe '#align_offsets()' do
     it 'aligns the shift so it can start from beginning of message' do
       shift1 = [1, 2, 3, 4]
       shift2 = [11, 8, 13, 0]
@@ -129,18 +129,18 @@ RSpec.describe Enigma do
       msg2 = 'jzmmktvt!km d'
       msg3 = 'keder ohulwthnw'
 
-      expect(enigma.align_shift(msg1, shift1)).to eq([1, 2, 3, 4])
-      expect(enigma.align_shift(msg2, shift2)).to eq([0, 11, 8, 13])
-      expect(enigma.align_shift(msg3, shift3)).to eq([3, 0, 19, 20])
+      expect(enigma.align_offsets(msg1, shift1)).to eq([1, 2, 3, 4])
+      expect(enigma.align_offsets(msg2, shift2)).to eq([0, 11, 8, 13])
+      expect(enigma.align_offsets(msg3, shift3)).to eq([3, 0, 19, 20])
     end
   end
 
-  describe '#find_key_shift()' do
+  describe '#find_key_offset()' do
     it 'returns the shifts created by the key' do
       cracked_shift = [0, 11, 8, 13]
       date = '101122'
 
-      expect(enigma.find_key_shift(cracked_shift, date)).to eq([19, 3, 0, 9])
+      expect(enigma.find_key_offset(cracked_shift, date)).to eq([19, 3, 0, 9])
     end
   end
 
