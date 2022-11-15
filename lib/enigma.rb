@@ -89,12 +89,16 @@ class Enigma
     shift.rotate(4 - message.size % 4)
   end
 
-  def find_key(shift, date)
-    date_shift = date_offset(date)
+  def find_key_shift(shift, date)
     key_shift = []
     shift.each_with_index do |shift_value, index|
-      key_shift << (shift_value - date_shift[index]) % 27
+      key_shift << (shift_value - date_offset(date)[index]) % 27
     end
+    key_shift
+  end
+
+  def find_key(shift, date)
+    key_shift = find_key_shift(shift, date)
     ('00000'..'99999').to_a.find do |potential_key|
       key = Key.new(potential_key).initial_offset
       reduced_key = key.map do |offset|
