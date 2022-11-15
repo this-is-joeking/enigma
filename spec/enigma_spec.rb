@@ -135,16 +135,16 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#find_offset' do
+  describe '#find_offsets_from_end' do
     it 'finds how shifted the last 4 characters are in the ciphertext' do
-      expect(enigma.find_offset('Not encrypted message end')).to eq([0, 0, 0, 0])
-      expect(enigma.find_offset('keder ohulwthnw')).to include(3, 0, 19, 20)
-      expect(enigma.find_offset('keder ohulwthnw')).to eq([20, 3, 0, 19])
+      expect(enigma.find_offsets_from_end('Not encrypted message end')).to eq([0, 0, 0, 0])
+      expect(enigma.find_offsets_from_end('keder ohulwthnw')).to include(3, 0, 19, 20)
+      expect(enigma.find_offsets_from_end('keder ohulwthnw')).to eq([20, 3, 0, 19])
 
       encrypted2 = enigma.encrypt('joe King! end', '73009', '101122')
 
-      expect(enigma.find_offset(encrypted2[:encryption])).to include(0, 11, 8, 13)
-      expect(enigma.find_offset(encrypted2[:encryption])).to eq([11, 8, 13, 0])
+      expect(enigma.find_offsets_from_end(encrypted2[:encryption])).to include(0, 11, 8, 13)
+      expect(enigma.find_offsets_from_end(encrypted2[:encryption])).to eq([11, 8, 13, 0])
     end
   end
 

@@ -3,10 +3,6 @@
 require './lib/key'
 
 class Enigma
-  # shift is always used as a verb
-  # offset is used as a noun describing array of values that 
-  # will be used to `shift` the chars for encryption/decryption
-
   def alpha
     ('a'..'z').to_a << ' '
   end
@@ -58,7 +54,7 @@ class Enigma
 
   def encrypt(message, key = Key.new, date = today)
     key = Key.new(key) unless key.is_a?(Key)
-    
+
     encrypted_message = shift(message, key, date)
     { encryption: alpha_index_to_message(encrypted_message),
       key: key.number,
@@ -85,7 +81,7 @@ class Enigma
       date: date }
   end
 
-  def find_offset(ciphertext)
+  def find_offsets_from_end(ciphertext)
     decrypted_end = message_to_alpha_index(' end')
     encrypted_end = message_to_alpha_index(ciphertext[-4..])
     cracked_shift = []
@@ -119,10 +115,10 @@ class Enigma
   end
 
   def crack(ciphertext, date = today)
-    cracked_offset = align_offsets(ciphertext, find_offset(ciphertext))
-    cracked_key = Key.new(find_key(cracked_offset, date))
+    cracked_offsets = align_offsets(ciphertext, find_offsets_from_end(ciphertext))
+    cracked_key = Key.new(find_key(cracked_offsets, date))
     cracked_message = unshift(ciphertext, cracked_key, date)
-  
+
     { decryption: alpha_index_to_message(cracked_message),
       date: date,
       key: cracked_key.number }
