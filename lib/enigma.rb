@@ -3,17 +3,10 @@
 require './lib/key'
 require './lib/alpha'
 require './lib/encrypter'
+require './lib/decrypter'
 
 class Enigma
   include Alpha
-
-  def key_and_date_offsets(key, date)
-    combined_offset = []
-    key.initial_offset.each_with_index do |element, index|
-      combined_offset << element + date.date_offset[index]
-    end
-    combined_offset.map { |shift| shift % 27 }
-  end
 
   def encrypt(message, key = Key.new, date = Date.new)
     key = Key.new(key) unless key.is_a?(Key)
@@ -26,24 +19,12 @@ class Enigma
       date: date.date }
   end
 
-  def unshift(message, key, date)
-    shift = key_and_date_offsets(key, date)
-    decrypted_values = []
-
-    message_to_alpha_index(message).each_with_index do |char, index|
-      next decrypted_values << char unless char.is_a?(Integer)
-
-      decrypted_values << (char - shift[index % 4]) % 27
-    end
-    decrypted_values
-  end
-
   def decrypt(ciphertext, key, date = Date.new)
     key = Key.new(key)
     date = Date.new(date) unless date.is_a?(Date)
 
-    decrypted_message = unshift(ciphertext, key, date)
-    { decryption: alpha_index_to_message(decrypted_message),
+    decrypted_message = Decrypter.new(ciphertext, key, date)
+    { decryption: decrypted_message.message,
       key: key.number,
       date: date.date }
   end
@@ -87,9 +68,9 @@ class Enigma
 
     cracked_offsets = align_offsets(ciphertext)
     cracked_key = Key.new(find_key(cracked_offsets, date))
-    cracked_message = unshift(ciphertext, cracked_key, date)
+    cracked_message = Decrypter.new(ciphertext, cracked_key, date)
 
-    { decryption: alpha_index_to_message(cracked_message),
+    { decryption: cracked_message.message,
       date: date.date,
       key: cracked_key.number }
   end

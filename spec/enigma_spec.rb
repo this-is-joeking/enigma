@@ -26,13 +26,6 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#unshift' do
-    it 'unshifts values based of chars based on shift values' do
-      expected = enigma.unshift('keder ohulw', Key.new('02715'), Date.new('040895'))
-      expect(expected).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
-    end
-  end
-
   describe '#decrypt' do
     it 'returns hash with decrypted message, key, and date' do
       expect(enigma.decrypt('keder ohulw', '02715', '040895')).to eq(
