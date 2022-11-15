@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 require './lib/key'
-require './lib/alpha'
 require './lib/encrypter'
 require './lib/decrypter'
 require './lib/cracker'
 
 class Enigma
-  include Alpha
 
   def encrypt(message, key = Key.new, date = Date.new)
     key = Key.new(key) unless key.is_a?(Key)
