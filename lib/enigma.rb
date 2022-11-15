@@ -30,7 +30,7 @@ class Enigma
     end.join
   end
 
-  def offset_values(key, date)
+  def key_and_date_offsets(key, date)
     combined_offset = []
     key.initial_offset.each_with_index do |element, index|
       combined_offset << element + date_offset(date)[index]
@@ -39,7 +39,7 @@ class Enigma
   end
 
   def shift(message, key, date)
-    shift = offset_values(key, date)
+    shift = key_and_date_offsets(key, date)
     encrypted_values = []
 
     message_to_alpha_index(message).each_with_index do |char, index|
@@ -52,6 +52,7 @@ class Enigma
 
   def encrypt(message, key = Key.new, date = today)
     key = Key.new(key) unless key.is_a?(Key)
+    
     encrypted_message = shift(message, key, date)
     { encryption: alpha_index_to_message(encrypted_message),
       key: key.number,
@@ -59,7 +60,7 @@ class Enigma
   end
 
   def unshift(message, key, date)
-    shift = offset_values(key, date)
+    shift = key_and_date_offsets(key, date)
     decrypted_values = []
 
     message_to_alpha_index(message).each_with_index do |char, index|

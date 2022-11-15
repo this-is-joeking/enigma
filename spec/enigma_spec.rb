@@ -48,15 +48,15 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#offset_values()' do
+  describe '#key_and_date_offsets()' do
     it 'takes key and formatted date and returns shift for keys A..D' do
       key1 = Key.new('73009')
       key2 = Key.new('34129')
       date1 = '101122'
       date2 = '240597'
 
-      expect(enigma.offset_values(key1, date1)).to eq([0, 11, 8, 13])
-      expect(enigma.offset_values(key2, date2)).to eq([13, 18, 12, 11])
+      expect(enigma.key_and_date_offsets(key1, date1)).to eq([0, 11, 8, 13])
+      expect(enigma.key_and_date_offsets(key2, date2)).to eq([13, 18, 12, 11])
     end
   end
 
