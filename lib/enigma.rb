@@ -1,17 +1,23 @@
 # frozen_string_literal: true
 
-require './lib/date_mod'
 require './lib/key'
 
 class Enigma
-  include DateMod
-  # consider injecting DateMod back into enigma
   # shift is always used as a verb
   # offset is used as a noun describing array of values that 
   # will be used to `shift` the chars for encryption/decryption
 
   def alpha
     ('a'..'z').to_a << ' '
+  end
+
+  def date_offset(date)
+    squared = date.to_i**2
+    squared.digits[0..3].reverse
+  end
+
+  def today
+    Time.now.strftime('%d%m%y')
   end
 
   def message_to_alpha_index(message)
