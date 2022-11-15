@@ -7,15 +7,6 @@ class Enigma
     ('a'..'z').to_a << ' '
   end
 
-  def date_offset(date)
-    squared = date.to_i**2
-    squared.digits[0..3].reverse
-  end
-
-  def today
-    Time.now.strftime('%d%m%y')
-  end
-
   def message_to_alpha_index(message)
     message.downcase.chars.map do |char|
       next char unless alpha.any?(char)
@@ -35,7 +26,7 @@ class Enigma
   def key_and_date_offsets(key, date)
     combined_offset = []
     key.initial_offset.each_with_index do |element, index|
-      combined_offset << element + date_offset(date)[index]
+      combined_offset << element + date.date_offset[index]
     end
     combined_offset.map { |shift| shift % 27 }
   end
@@ -52,13 +43,15 @@ class Enigma
     encrypted_values
   end
 
-  def encrypt(message, key = Key.new, date = today)
+  def encrypt(message, key = Key.new, date = Date.new)
     key = Key.new(key) unless key.is_a?(Key)
+
+    date = Date.new(date) unless date.is_a?(Date)
 
     encrypted_message = shift(message, key, date)
     { encryption: alpha_index_to_message(encrypted_message),
       key: key.number,
-      date: date }
+      date: date.date }
   end
 
   def unshift(message, key, date)
@@ -73,12 +66,14 @@ class Enigma
     decrypted_values
   end
 
-  def decrypt(ciphertext, key, date = today)
+  def decrypt(ciphertext, key, date = Date.new)
     key = Key.new(key)
+    date = Date.new(date) unless date.is_a?(Date)
+
     decrypted_message = unshift(ciphertext, key, date)
     { decryption: alpha_index_to_message(decrypted_message),
       key: key.number,
-      date: date }
+      date: date.date }
   end
 
   def find_offsets_from_end(ciphertext)
@@ -99,7 +94,7 @@ class Enigma
   def find_key_offsets(offsets, date)
     key_offset = []
     offsets.each_with_index do |offset, index|
-      key_offset << (offset - date_offset(date)[index]) % 27
+      key_offset << (offset - date.date_offset[index]) % 27
     end
     key_offset
   end
@@ -115,13 +110,15 @@ class Enigma
     end
   end
 
-  def crack(ciphertext, date = today)
+  def crack(ciphertext, date = Date.new)
+    date = Date.new(date) unless date.is_a?(Date)
+
     cracked_offsets = align_offsets(ciphertext)
     cracked_key = Key.new(find_key(cracked_offsets, date))
     cracked_message = unshift(ciphertext, cracked_key, date)
 
     { decryption: alpha_index_to_message(cracked_message),
-      date: date,
+      date: date.date,
       key: cracked_key.number }
   end
 end
