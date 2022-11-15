@@ -98,7 +98,7 @@ class Enigma
     ('00000'..'99999').to_a.find do |potential_key|
       key = Key.new(potential_key).initial_offset
       reduced_key = key.map do |offset|
-        offset % 27 
+        offset % 27
       end
       reduced_key == key_shift
     end
@@ -116,6 +116,6 @@ class Enigma
 
     { decryption: cracked,
       date: date,
-      key: find_key(cracked_shift, date)}
+      key: find_key(cracked_shift, date) }
   end
 end

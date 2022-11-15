@@ -10,7 +10,9 @@ RSpec.describe Enigma do
 
   describe '#alpha' do
     it 'makes an array of downcase alphabet and space' do
-      expect(enigma.alpha).to eq(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '])
+      expect(enigma.alpha).to eq(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                                  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                                  's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '])
     end
   end
 
@@ -22,7 +24,7 @@ RSpec.describe Enigma do
       expected1 = enigma.message_to_alph_index(message1)
       expected2 = enigma.message_to_alph_index(message2)
       expected3 = enigma.message_to_alph_index(message3)
-      
+
       expect(expected1).to eq([9, 14, 4, 26, 10, 8, 13, 6])
       expect(expected1).to eq(expected2)
       expect(expected3).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
@@ -86,7 +88,6 @@ RSpec.describe Enigma do
     end
   end
 
-
   describe '#unshift' do
     it 'unshifts values based of chars based on shift values' do
       expected = enigma.unshift('keder ohulw', Key.new('02715'), '040895')
@@ -111,9 +112,9 @@ RSpec.describe Enigma do
       expect(enigma.find_shift('Not encrypted message end')).to eq([0, 0, 0, 0])
       expect(enigma.find_shift('keder ohulwthnw')).to include(3, 0, 19, 20)
       expect(enigma.find_shift('keder ohulwthnw')).to eq([20, 3, 0, 19])
-      
+
       encrypted2 = enigma.encrypt('joe King! end', '73009', '101122')
-    
+
       expect(enigma.find_shift(encrypted2[:encryption])).to include(0, 11, 8, 13)
       expect(enigma.find_shift(encrypted2[:encryption])).to eq([11, 8, 13, 0])
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './lib/enigma'
 
 encrypted_file = File.open(ARGV[0], 'r')
