@@ -91,8 +91,9 @@ class Enigma
     cracked_shift
   end
 
-  def align_offsets(message, shift)
-    shift.rotate(4 - message.size % 4)
+  def align_offsets(message)
+    offsets_from_end = find_offsets_from_end(message)
+    offsets_from_end.rotate(4 - message.size % 4)
   end
 
   def find_key_offsets(offsets, date)
@@ -115,7 +116,7 @@ class Enigma
   end
 
   def crack(ciphertext, date = today)
-    cracked_offsets = align_offsets(ciphertext, find_offsets_from_end(ciphertext))
+    cracked_offsets = align_offsets(ciphertext)
     cracked_key = Key.new(find_key(cracked_offsets, date))
     cracked_message = unshift(ciphertext, cracked_key, date)
 

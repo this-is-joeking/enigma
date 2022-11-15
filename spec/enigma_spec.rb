@@ -150,16 +150,13 @@ RSpec.describe Enigma do
 
   describe '#align_offsets()' do
     it 'aligns the shift so it can start from beginning of message' do
-      shift1 = [1, 2, 3, 4]
-      shift2 = [11, 8, 13, 0]
-      shift3 = [20, 3, 0, 19]
       msg1 = ' end'
       msg2 = 'jzmmktvt!km d'
       msg3 = 'keder ohulwthnw'
 
-      expect(enigma.align_offsets(msg1, shift1)).to eq([1, 2, 3, 4])
-      expect(enigma.align_offsets(msg2, shift2)).to eq([0, 11, 8, 13])
-      expect(enigma.align_offsets(msg3, shift3)).to eq([3, 0, 19, 20])
+      expect(enigma.align_offsets(msg1)).to eq([0, 0, 0, 0])
+      expect(enigma.align_offsets(msg2)).to eq([0, 11, 8, 13])
+      expect(enigma.align_offsets(msg3)).to eq([3, 0, 19, 20])
     end
   end
 
