@@ -38,49 +38,6 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#find_offsets_from_end' do
-    it 'finds how shifted the last 4 characters are in the ciphertext' do
-      expect(enigma.find_offsets_from_end('Not encrypted message end')).to eq([0, 0, 0, 0])
-      expect(enigma.find_offsets_from_end('keder ohulwthnw')).to include(3, 0, 19, 20)
-      expect(enigma.find_offsets_from_end('keder ohulwthnw')).to eq([20, 3, 0, 19])
-
-      encrypted2 = enigma.encrypt('joe King! end', '73009', '101122')
-
-      expect(enigma.find_offsets_from_end(encrypted2[:encryption])).to include(0, 11, 8, 13)
-      expect(enigma.find_offsets_from_end(encrypted2[:encryption])).to eq([11, 8, 13, 0])
-    end
-  end
-
-  describe '#align_offsets()' do
-    it 'aligns the shift so it can start from beginning of message' do
-      msg1 = ' end'
-      msg2 = 'jzmmktvt!km d'
-      msg3 = 'keder ohulwthnw'
-
-      expect(enigma.align_offsets(msg1)).to eq([0, 0, 0, 0])
-      expect(enigma.align_offsets(msg2)).to eq([0, 11, 8, 13])
-      expect(enigma.align_offsets(msg3)).to eq([3, 0, 19, 20])
-    end
-  end
-
-  describe '#find_key_offsets()' do
-    it 'returns the shifts created by the key' do
-      cracked_shift = [0, 11, 8, 13]
-      date = Date.new('101122')
-
-      expect(enigma.find_key_offsets(cracked_shift, date)).to eq([19, 3, 0, 9])
-    end
-  end
-
-  describe '#find_key()' do
-    it 'returns the key' do
-      shift1 = [0, 11, 8, 13]
-      date1 = Date.new('101122')
-
-      expect(enigma.find_key(shift1, date1)).to eq('73009')
-    end
-  end
-
   describe '#crack()' do
     it 'cracks an encrypted message and date' do
       cracked1 = enigma.crack('vjqtbeaweqihssi', '291018')
