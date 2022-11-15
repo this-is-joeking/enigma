@@ -4,11 +4,12 @@ require './lib/cracker'
 
 RSpec.describe Cracker do
   it 'exists and has readable attributes' do
-    cracker = Cracker.new('string', Date.new)
+    cracker = Cracker.new('keder ohulwthnw', Date.new)
 
     expect(cracker).to be_a Cracker
-    expect(cracker.ciphertext).to eq('string')
+    expect(cracker.ciphertext).to eq('keder ohulwthnw')
     expect(cracker.date).to be_a Date
+    expect(cracker.key).to be_a Key
   end
 
   describe '#find_offsets_from_end' do
@@ -35,17 +36,21 @@ RSpec.describe Cracker do
 
   describe '#find_key_offsets()' do
     it 'returns the shifts created by the key' do
-      cracker = Cracker.new('jzmmktvt!km d', Date.new('101122'))
+      cracker1 = Cracker.new('jzmmktvt!km d', Date.new('101122'))
+      cracker2 = Cracker.new('keder ohulwthnw', Date.new('040895'))
 
-      expect(cracker.find_key_offsets).to eq([19, 3, 0, 9])
+      expect(cracker1.find_key_offsets).to eq([19, 3, 0, 9])
+      expect(cracker2.find_key_offsets).to eq([2, 0, 17, 15])
     end
   end
 
   describe '#find_key()' do
     it 'returns the key' do
-      cracker = Cracker.new('jzmmktvt!km d', Date.new('101122'))
+      cracker1 = Cracker.new('jzmmktvt!km d', Date.new('101122'))
+      cracker2 = Cracker.new('keder ohulwthnw', Date.new('040895'))
 
-      expect(cracker.find_key).to eq('73009')
+      expect(cracker1.find_key).to eq('73009')
+      expect(cracker2.find_key).to eq('02715')
     end
   end
 end
