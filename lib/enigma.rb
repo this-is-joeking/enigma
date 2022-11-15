@@ -10,6 +10,22 @@ class Enigma
     ('a'..'z').to_a << ' '
   end
 
+  def message_to_alph_index(message)
+    message.downcase.chars.map do |char|
+      next char unless alpha.any?(char)
+
+      alpha.find_index(char)
+    end
+  end
+
+  def alph_index_to_message(indices)
+    indices.map do |index|
+      next index unless index.is_a?(Integer)
+
+      alpha[index]
+    end.join
+  end
+
   def shift_values(key, date)
     combined_offset = []
     key.initial_offset.each_with_index do |element, index|
@@ -58,19 +74,47 @@ class Enigma
       date: date }
   end
 
-  def message_to_alph_index(message)
-    message.downcase.chars.map do |char|
-      next char unless alpha.any?(char)
+  def find_shift(ciphertext)
+    decrypted_end = message_to_alph_index(' end')
+    encrypted_end = message_to_alph_index(ciphertext[-4..])
+    cracked_shift = []
+    encrypted_end.each_with_index do |encrypted_char, index|
+      cracked_shift << (encrypted_char - decrypted_end[index]) % 27
+    end
+    cracked_shift
+  end
 
-      alpha.find_index(char)
+  def align_shift(message, shift)
+    shift.rotate(4 - message.size % 4)
+  end
+
+  def find_key(shift, date)
+    date_shift = date_offset(date)
+    key_shift = []
+    shift.each_with_index do |shift_value, index|
+      key_shift << (shift_value - date_shift[index]) % 27
+    end
+    ('00000'..'99999').to_a.find do |potential_key|
+      key = Key.new(potential_key).initial_offset
+      reduced_key = key.map do |offset|
+        offset % 27 
+      end
+      reduced_key == key_shift
     end
   end
 
-  def alph_index_to_message(indices)
-    indices.map do |index|
-      next index unless index.is_a?(Integer)
+  def crack(ciphertext, date = today)
+    cracked_shift = align_shift(ciphertext, find_shift(ciphertext))
+    cracked_values = []
+    message_to_alph_index(ciphertext).each_with_index do |char, index|
+      next cracked_values << char unless char.is_a?(Integer)
 
-      alpha[index]
-    end.join
+      cracked_values << (char - cracked_shift[index % 4]) % 27
+    end
+    cracked = alph_index_to_message(cracked_values)
+
+    { decryption: cracked,
+      date: date,
+      key: find_key(cracked_shift, date)}
   end
 end
