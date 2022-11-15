@@ -8,8 +8,8 @@ RSpec.describe Alpha do
   describe '#alpha' do
     it 'makes an array of downcase alphabet and space' do
       expect(test_class.alpha).to eq(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                  's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '])
+                                      'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                                      's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '])
     end
   end
 
