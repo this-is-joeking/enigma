@@ -16,34 +16,6 @@ RSpec.describe Enigma do
     end
   end
 
-  describe '#date_offset()' do
-    it 'gets the shift values from date, optional argument if date specified' do
-      date1 = '101122'
-      date2 = '221292'
-      date3 = 200407
-      no_date_given = enigma.date_offset(enigma.today)
-
-      expect(enigma.date_offset(date1)).to eq([8, 8, 8, 4])
-      expect(enigma.date_offset(date2)).to eq([9, 2, 6, 4])
-      expect(enigma.date_offset(date3)).to eq([5, 6, 4, 9])
-      expect(no_date_given.size).to eq(4)
-
-      no_date_given.each do |element|
-        expect(element).to be < 10
-      end
-    end
-  end
-
-  describe '#today' do
-    it 'turns todays date into string formatted as "DDMMYY"' do
-      expect(enigma.today).to be_a String
-      expect(enigma.today.size).to eq(6)
-      expect(enigma.today[0].to_i).to be <= 3
-      expect(enigma.today[2].to_i).to be <= 1
-      expect(enigma.today.chars[2..5]).to eq(['1', '1', '2', '2'])
-    end
-  end
-
   describe '#message_to_alpha_index()' do
     it 'sets message to downcase and to array of values aligned with #alpha' do
       message1 = 'JoE KIng'
@@ -80,8 +52,8 @@ RSpec.describe Enigma do
     it 'takes key and formatted date and returns shift for keys A..D' do
       key1 = Key.new('73009')
       key2 = Key.new('34129')
-      date1 = '101122'
-      date2 = '240597'
+      date1 = Date.new('101122')
+      date2 = Date.new('240597')
 
       expect(enigma.key_and_date_offsets(key1, date1)).to eq([0, 11, 8, 13])
       expect(enigma.key_and_date_offsets(key2, date2)).to eq([13, 18, 12, 11])
@@ -90,8 +62,8 @@ RSpec.describe Enigma do
 
   describe '#shift()' do
     it 'shifts the values of chars based on shift values' do
-      expected1 = enigma.shift('joe King', Key.new('73009'), '101122')
-      expected2 = enigma.shift('hello world', Key.new('02715'), '040895')
+      expected1 = enigma.shift('joe King', Key.new('73009'), Date.new('101122'))
+      expected2 = enigma.shift('hello world', Key.new('02715'), Date.new('040895'))
 
       expect(expected1).to eq([9, 25, 12, 12, 10, 19, 21, 19])
       expect(expected2).to eq([10, 4, 3, 4, 17, 26, 14, 7, 20, 11, 22])
@@ -118,7 +90,7 @@ RSpec.describe Enigma do
 
   describe '#unshift' do
     it 'unshifts values based of chars based on shift values' do
-      expected = enigma.unshift('keder ohulw', Key.new('02715'), '040895')
+      expected = enigma.unshift('keder ohulw', Key.new('02715'), Date.new('040895'))
       expect(expected).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
     end
   end
@@ -163,7 +135,7 @@ RSpec.describe Enigma do
   describe '#find_key_offsets()' do
     it 'returns the shifts created by the key' do
       cracked_shift = [0, 11, 8, 13]
-      date = '101122'
+      date = Date.new('101122')
 
       expect(enigma.find_key_offsets(cracked_shift, date)).to eq([19, 3, 0, 9])
     end
@@ -172,7 +144,7 @@ RSpec.describe Enigma do
   describe '#find_key()' do
     it 'returns the key' do
       shift1 = [0, 11, 8, 13]
-      date1 = '101122'
+      date1 = Date.new('101122')
 
       expect(enigma.find_key(shift1, date1)).to eq('73009')
     end
