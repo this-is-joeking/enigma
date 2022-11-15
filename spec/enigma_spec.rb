@@ -35,6 +35,13 @@ RSpec.describe Enigma do
           date: '040895'
         }
       )
+      expect(enigma.decrypt('jzmmktvt', '73009', '101122')).to eq(
+        {
+          decryption: 'joe king',
+          key: '73009',
+          date: '101122'
+        }
+      )
     end
   end
 

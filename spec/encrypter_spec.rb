@@ -35,4 +35,14 @@ RSpec.describe Encrypter do
       expect(encrypter2.shift).to eq([10, 4, 3, 4, 17, 26, 14, 7, 20, 11, 22])
     end
   end
+
+  describe '#encryption' do
+    it 'uses shift to turn the array of values into the encrypted message' do
+      encrypter1 = Encrypter.new('joe King', Key.new('73009'), Date.new('101122'))
+      encrypter2 = Encrypter.new('hello world', Key.new('02715'), Date.new('040895'))
+
+      expect(encrypter1.encryption).to eq('jzmmktvt')
+      expect(encrypter2.encryption).to eq('keder ohulw')
+    end
+  end
 end
