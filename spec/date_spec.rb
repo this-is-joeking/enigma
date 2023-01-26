@@ -31,12 +31,11 @@ RSpec.describe Date do
   describe '#today' do
     it 'turns todays date into string formatted as "DDMMYY"' do
       date = Date.new
-      
+
       expect(date.today).to be_a String
       expect(date.today.size).to eq(6)
       expect(date.today[0].to_i).to be <= 3
       expect(date.today[2].to_i).to be <= 1
-      expect(date.today.chars[2..5]).to eq(['1', '1', '2', '2'])
     end
   end
 end

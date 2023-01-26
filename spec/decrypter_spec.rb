@@ -30,7 +30,7 @@ RSpec.describe Decrypter do
     it 'unshifts values based of chars based on shift values' do
       expected1 = Decrypter.new('keder ohulw', Key.new('02715'), Date.new('040895'))
       expected2 = Decrypter.new('jzmmktvt', Key.new('73009'), Date.new('101122'))
-      
+
       expect(expected1.unshift).to eq([7, 4, 11, 11, 14, 26, 22, 14, 17, 11, 3])
       expect(expected2.unshift).to eq([9, 14, 4, 26, 10, 8, 13, 6])
     end
